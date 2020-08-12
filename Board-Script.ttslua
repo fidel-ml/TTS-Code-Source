@@ -66,7 +66,7 @@ view =  {
 conurbanos = { ModelPos(4, 4), ModelPos(-4, 4)
              , ModelPos(4,-4), ModelPos(-4,-4)
              }
-republicas = { ModelPos(1, 1), ModelPos(-1, 1)
+republica  = { ModelPos(1, 1), ModelPos(-1, 1)
              , ModelPos(1,-1), ModelPos(-1,-1)
              }
 

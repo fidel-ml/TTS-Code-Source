@@ -1,10 +1,10 @@
 function onLoad(lastModelJSON)
-    self.initialize ()
-    self.loadModelFromJSON(lastModelJSON)
+    initialize ()
+    loadModelFromJSON(lastModelJSON)
 end
 
 function onSave()
-   return JSON.encode(self.model)
+   return JSON.encode(model)
 end
 
 --[[ INNER-INTERFACE

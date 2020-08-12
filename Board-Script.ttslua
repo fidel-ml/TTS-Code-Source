@@ -115,11 +115,12 @@ end
 -- Auxiliaries
 -- (TO-DO:organize!)
 --============================================================
+--]]
 function loadModel(currentModel)
    model = currentModel
-   self.renderModel()
+   --self.renderModel()
 end
-
+--[[
 function renderModel()
    self.renderTrabajadores()
    self.renderOligarcas()

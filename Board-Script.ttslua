@@ -35,8 +35,8 @@ model = { trabajadores = conurbanos
 
 function initialize()
     self.setBoardSnapPoints()
-    view.bolsaDeTrabajo = BolsaDeTrabajo:spawnAt(view.bolsaDeTrabajo_iniPos)
-    self.spawnOligarcaPieces()
+    --view.bolsaDeTrabajo = BolsaDeTrabajo:spawnAt(view.bolsaDeTrabajo_iniPos)
+    --self.spawnOligarcaPieces()
 end
 
 function loadModelFromJSON(modelJSON)

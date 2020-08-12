@@ -29,8 +29,8 @@ end
 -- INTERFACE
 ---============================================================
 model = { trabajadores = conurbanos
-          oligarcas    = republica
-          hayLider     = false
+        , oligarcas    = republica
+        , hayLider     = false
         }
 
 function initialize()

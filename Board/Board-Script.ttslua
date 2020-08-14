@@ -1,6 +1,6 @@
 external = nil
 function onLoad(lastModelJSON) 
-  print("HEY! ", defined.initialized)
+  print("HEY! ", defined.initialize)
   if defined.initialize ~= nil then initialize() end
   if external == nil then print("It's dead")
   else print("It's alive! ", external)

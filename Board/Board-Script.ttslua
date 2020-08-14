@@ -1,6 +1,6 @@
 external = nil
 function onLoad(lastModelJSON) 
   if external == nil then print("It's dead")
-  else print("It's alive!")
+  else print("It's alive! ", external)
   end
 end

@@ -1,7 +1,7 @@
 external = nil
 function onLoad(lastModelJSON) 
   print("HEY! ", type(initialize))
-  if initialize ~= nil then initialize() end
+  if defined.initialize ~= nil then initialize() end
   if external == nil then print("It's dead")
   else print("It's alive! ", external)
   end

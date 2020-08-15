@@ -1,6 +1,6 @@
 defined = {}
 function initialize() 
-  print("External set")
+  print("Variable 'external', set")
   external = "Code added" 
 end
 defined.initialize = true

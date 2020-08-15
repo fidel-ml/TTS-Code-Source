@@ -9,7 +9,7 @@ function onLoad(savedData)
   if initialize_isDefined then initialize() end
   if external == nil 
    then print("Dynamic Script Building failed... :(")
-   else print("Dynamic Script Building succeed! :D"
+   else print("Dynamic Script Building succeed! :D")
         print("  external = ", external)
   end
 end

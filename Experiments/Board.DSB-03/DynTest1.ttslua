@@ -4,7 +4,7 @@
 function initialize()
   print("Initializing...")
   print("  Variable 'external', set")
-  external = "Another successful test!"
+  external = "One successful test more!"
 end
 
 --[[ MAIN CODE expected this to be added to by dynamic loading:

@@ -3,7 +3,7 @@
 function initialize()
   print("Initializing...")
   print("  Variable 'external', set")
-  external = "A successful test!"
+  external = "Another successful test!"
 end
 initialize_isDefined = true
 

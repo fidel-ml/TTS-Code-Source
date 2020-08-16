@@ -1,6 +1,6 @@
 --[[
   ## JSON of Dependencies
-     [ "Test" ]
+     [ "DynTest" ]
   ##
 --]]
 -- Main part of the test of Dynamic Script Building

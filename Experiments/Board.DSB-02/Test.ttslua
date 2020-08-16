@@ -1,18 +1,23 @@
+--[[
+  ## JSON of Dependencies
+     [ "Test" ]
+  ##
+--]]
 -- Secondary part of the test of Dynamic Script Building
 -- Defines initialize (to set external) and initalize_isDefined (to indicate it is there to be used)
-function initialize() 
+function initialize()
   print("Initializing...")
   print("  Variable 'external', set")
-  external = "A successful test!" 
+  external = "A successful test!"
 end
 initialize_isDefined = true
 
 
 --[[ MAIN CODE expected this to be added to by dynamic loading:
 external = nil
-function onLoad(savedData) 
+function onLoad(savedData)
   if initialize_isDefined then initialize() end
-  if external == nil 
+  if external == nil
    then print("Dynamic Script Building failed... :(")
    else print("Dynamic Script Building succeed! :D"
         print("  external = ", external)

@@ -1,0 +1,6 @@
+-- Second level dependency of the DSB test
+-- Defines the success message
+times = times + 1
+successMsg = "Nested dependencies are working\
+           (with repetition elimination)!\
+           Instead of 2 times, it's loaded only "..string.format("%d", times)

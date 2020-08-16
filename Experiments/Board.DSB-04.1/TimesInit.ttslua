@@ -1,0 +1,3 @@
+-- Second level dependency of the DSB test
+-- Initializes times (for Level2Dep counting)
+times = 0

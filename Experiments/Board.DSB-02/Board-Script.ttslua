@@ -1,7 +1,8 @@
---[[ ## JSON of Dependencies
-      [ "Test" ]
-     ##
-  ]]
+--[[
+  ## JSON of Dependencies
+     [ "Test" ]
+  ##
+--]]
 -- Main part of the test of Dynamic Script Building
 -- If this is run alone, no initialization is done, and so, external is not defined.
 external = nil

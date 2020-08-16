@@ -1,8 +1,3 @@
---[[
-  ## JSON of Dependencies
-     [ "Test" ]
-  ##
---]]
 -- Secondary part of the test of Dynamic Script Building
 -- Defines initialize (to set external) and initalize_isDefined (to indicate it is there to be used)
 function initialize()

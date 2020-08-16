@@ -1,0 +1,4 @@
+-- First level dependency of the DSB test, second part
+-- It requires a first part defining initialize (to set external)
+-- It defines initalize_isDefined (to indicate it is there to be used)
+initialize_isDefined = true

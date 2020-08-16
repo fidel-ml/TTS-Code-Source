@@ -1,0 +1,13 @@
+--[[
+  ## JSON of Dependencies
+     [ "Level2Dep" ]
+  ##
+--]]
+-- First level dependency of the DSB test, first part
+-- Defines initialize (to set external). It has a dependency!
+-- It requires a second part to define initalize_isDefined (to indicate it is there to be used)
+function initialize()
+  print("Initializing...")
+  print("  Variable 'external', set")
+  external = successMsg
+end

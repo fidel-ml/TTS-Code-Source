@@ -1,0 +1,3 @@
+-- Second level dependency of the DSB test
+-- Defines the success message
+successMsg = "Nested dependencies are working!"

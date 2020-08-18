@@ -1,7 +1,7 @@
 --[[
-  ## JSON of Dependencies
+  <## JSON of Dependencies
      [ "TimesInit", "Level2Dep" ]
-  ##
+  ##>
 --]]
 -- First level dependency of the DSB test, first part
 -- Defines initialize (to set external). It has a dependency!

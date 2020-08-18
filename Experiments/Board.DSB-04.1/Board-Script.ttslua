@@ -1,7 +1,7 @@
 --[[
-  ## JSON of Dependencies
+  <## JSON of Dependencies
      [ "DynTest1", "DynTest2" ]
-  ##
+  ##>
 --]]
 -- Main part of the test of Dynamic Script Building
 -- If this is run alone, no initialization is done, and so, external is not defined.

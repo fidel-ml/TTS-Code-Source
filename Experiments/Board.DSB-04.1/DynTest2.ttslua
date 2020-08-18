@@ -1,7 +1,7 @@
 --[[
-  ## JSON of Dependencies
+  <## JSON of Dependencies
      [ "Level2Dep" ]
-  ##
+  ##>
 --]]
 -- First level dependency of the DSB test, second part
 -- It requires a first part defining initialize (to set external)

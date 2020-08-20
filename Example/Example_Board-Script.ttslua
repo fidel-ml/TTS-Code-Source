@@ -1,0 +1,8 @@
+--[[
+  <## JSON of Dependencies
+     [ ]
+  ##>
+--]]
+function onLoad(savedData)
+  print("Example Board succesfully configured!")
+end

@@ -27,6 +27,7 @@ function Import_GameBoxScript(context)
       --self:createDoubleSidedButton(self:buttonParameters("underConstruction", "Iniciar", Vector(0.25,0,0.57)))
       --self:createDoubleSidedButton(self:buttonParameters("underConstruction", "Reglas", Vector(-0.25,0,0.57)))
       -- context.createButton(self:buttonParameters("test", "Reglas", Vector(-0.25,0,0.57)))
+      Prelude_Debug.Debug("GameBox:config() successful")
     end
 
     -- --------------------------------------------------------------

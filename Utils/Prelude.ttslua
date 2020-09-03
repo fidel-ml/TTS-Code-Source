@@ -1,0 +1,259 @@
+--[[ Prelude
+    -- ----------------------
+    PURPOSE: to provide basic functionalities
+    -- ----------------------
+    INTERFACE:
+        MATH: GModule
+            Prelude_Math.sign(num)
+            Prelude_Math.signedCeil(num)
+        STRINGS: GModule
+            Prelude_String.trim(str)
+        TTS: GModule
+            Prelude_TTS.moveSmoothlyAlong(obj, points)
+              -- points is a table of subtables
+              --    { position, rotation }  or
+              --    { 1       , 2        }
+              -- Both elements of the subtables are either TTS Vectors or tables {x,y,z}
+        LISTS: GModule
+            Prelude_List.mkAppend(xs, ys)
+            Prelude_List.all_Satisfy_(xs, cond_)
+            Prelude_List.all_Do_(xs, proc_[, reversed=false])
+            Prelude_List.all_ReverseDo_(xs, proc)
+            Prelude_List.elemIndex(x, xs)
+        GENERAL: GModule
+            Prelude_Debug.error(msg)
+            Prelude_Debug.setDebugLevelAt_([level=1])
+            Prelude_Debug.DEBUG(msg[, level=1])
+            Prelude_Debug.INSPECTTable_(table)
+            Prelude_Debug.INSPECTTable_ProfileAs_(table [, tableName="Unnamed table"])
+    -- ------------------------
+    USAGE: simply include it and serve yourself
+    -- ------------------------
+<## REQUIRES: nothing (besides TTS.JSON, TTS.setPositionSmooth, TTS.setRotationSmooth, and TTS.isSmoothMoving)
+##>
+    -- ----------------------
+--]]
+function Import_Prelude()
+  function Import_Prelude_Math()
+    if Prelude_Math~=nil then return 1 end
+    --=============================================================
+    -- Math prelude
+    --=============================================================
+    Prelude_Math = {
+          gname = "Prelude_Math"
+        , gtype = "GModule"
+
+        , interface = { "Prelude_Math.sign(num)", "Prelude_Math.signedCeil(num)" }
+    }
+
+    function Prelude_Math.sign(num)
+      -- the sign of *num*
+      if     num>0 then return 1
+      elseif num<0 then return -1
+      else              return 0  end
+    end
+
+    function Prelude_Math.signedCeil(num)
+        -- smaller integer near num that is farther from 0
+        if num>=0 then return math.ceil(num)
+        else           return math.floor(num)
+        end
+    end
+  end
+
+  function Import_Prelude_String()
+    if Prelude_String~=nil then return 1 end
+    --=============================================================
+    -- String prelude
+    --=============================================================
+    Prelude_String = {
+          gname = "Prelude_String"
+        , gtype = "GModule"
+
+        , interface = { "Prelude_String.trim(str)" }
+    }
+
+    function Prelude_String.trim(str)
+        return string.match(str,"^%s*(.-)%s*$")
+    end
+  end
+
+  function Import_Prelude_TTS()
+    if Prelude_TTS~=nil then return 1 end
+    --=============================================================
+    -- TTS prelude
+    --=============================================================
+    Prelude_TTS = {
+          gname = "Prelude_TTS"
+        , gtype = "GModule"
+
+        , interface = { "Prelude_TTS.moveSmoothlyAlong(obj, points)" }
+    }
+
+    function Prelude_TTS.moveSmoothlyAlong(obj, points)
+        if #points>0
+        then local nextpos = points[#points].position or points[#points][1]
+             local nextrot = points[#points].rotation or points[#points][2]
+             if nextpos ~= nil then obj.setPositionSmooth(nextpos, false, false) end
+             if nextrot ~= nil then obj.setRotationSmooth(nextrot, false, false) end
+             table.remove(points)
+             Wait.condition(function()
+                               Prelude_TTS.moveSmoothlyAlong(obj,points)
+                            end, function()
+                               return not obj.isSmoothMoving()
+                            end)
+        end
+    end
+  end
+
+  function Import_Prelude_List()
+    if Prelude_List~=nil then return 1 end
+    --=======================================================
+    -- List prelude
+    --   mkAppend(xs, ys) is equivalent to xs := xs ++ ys
+    --   all_Satisfy_ is similar to all :: (a->Bool) -> [a] -> Bool
+    --   all_ReverseDo_ is similar to flip (flip mapM_ . reverse) :: (a-> m ()) -> [a] -> m ()
+    --   all_Do_ (not reversed) is similar to mapM_ :: (a-> m ()) -> [a] -> m ()
+    --=======================================================
+    Prelude_List = {
+          gname = "Prelude_List"
+        , gtype = "GModule"
+
+        , interface = { "Prelude_List.mkAppend(xs,ys)"
+                      , "Prelude_List.all_Satisfy_(xs, cond_)"
+                      , "Prelude_List.all_Do_(xs, proc_[, reversed=false])"
+                      , "Prelude_List.all_ReverseDo_(xs, proc_)"
+                      , "Prelude_List.elemIndex(x, xs)"
+                      }
+    }
+
+    function Prelude_List.mkAppend(xs, ys)
+      Prelude_List.all_Do_(ys, function(y)   -- foreach y in ys do
+          table.insert(xs, y)           --  xs := xs ++ [y]
+      end)
+    end
+
+    function Prelude_List.all_Satisfy_(xs, cond_)
+        --[[ PURPOSE: indicates if all elements of xs satisfy cond_
+             PARAMETERS:
+              cond_, a function taking an element and returning a boolean
+               xs, a table
+             RETURNS: a boolean
+        --]]
+        local currentAll = true
+        for _, x in pairs(xs) do currentAll = currentAll and cond_(x) end
+        return currentAll
+    end
+
+    function Prelude_List.all_ReverseDo_(xs, proc_)
+        -- A shortcut to provide some readability to the third param...
+        Prelude_List.all_Do_(xs, proc_, true)
+    end
+
+    function Prelude_List.all_Do_(xs, proc_, reversed)
+        --[[ PURPOSE: executes proc_ for every element of xs
+             PARAMETERS:
+               proc_, a function taking an element and performing actions (no return value)
+               xs, a table
+               reversed, a boolean indicating if the traversal should be (optional, default: false)
+        --]]
+        local reversed = reversed or false
+        local keys,n = {}, 0
+        -- First, get the keys
+        for k in pairs(xs) do n=n+1; keys[n] = k end
+        -- Then decide the order of traversal (using the keys to perform the magic)
+        if reversed
+        then for i=#keys,1,-1 do proc_(xs[i]) end
+        else for i=1,#keys    do proc_(xs[i]) end
+        end
+    end
+
+    function Prelude_List.elemIndex(x, xs)
+        local i = 1
+        while (i<=#xs and xs[i]~=x) do i = i + 1 end
+        if i>#xs then i = nil end -- Not found!
+        return i
+    end
+  end
+
+  function Import_Prelude_Debug()
+    if Prelude_Debug~=nil then return 1 end
+    --=============================================================
+    -- Debug prelude
+    --=============================================================
+    Prelude_Debug = {
+          gname = "Prelude_Debug"
+        , gtype = "GModule"
+
+        , interface = { "Prelude_Debug.error(msg)"
+                      , "Prelude_Debug.setDebugLevelAt_([level=1])"
+                      , "Prelude_Debug.DEBUG(msg[, level=1])"
+                      , "Prelude_Debug.INSPECTTable_(table)"
+                      , "Prelude_Debug.INSPECTTable_ProfileAs_(table[, tableName=\"Unnamed table\"])"
+                      }
+
+        , debugLevel = 0
+        , seen       = {}
+    }
+
+    function Prelude_Debug.setDebugLevelAt_(level)
+        Prelude_Debug.debugLevel = level or 1
+    end
+
+    function Prelude_Debug.DEBUG(msg, level)
+        local level = level or 1
+        if level <= Prelude_Debug.debugLevel then
+            print("DEBUG: ", msg)
+        end
+    end
+
+    function Prelude_Debug.INSPECTTable_(t)
+        if t~=nil then Prelude_Debug.DEBUG(JSON.encode(t))
+        else Prelude_Debug.DEBUG("Argument is not a table, but a nil.")
+        end
+    end
+
+    function Prelude_Debug.INSPECTTable_ProfileAs_(t, tName)
+        Prelude_Debug.seen     = {}
+        Prelude_Debug.tprofile = ""
+        Prelude_Debug.DEBUG("Table profile for "..(tName or "UnnamedTable"))
+        Prelude_Debug.strINSPECTTable_ProfileREC(t)
+        Prelude_Debug.DEBUG(Prelude_Debug.tprofile)
+        Prelude_Debug.DEBUG("END Table profile")
+    end
+
+    function Prelude_Debug.strINSPECTTable_ProfileREC(t, prefix)
+        local prefix = prefix or ", "
+        local keys = {}
+        local value, first
+        if (t ~= nil) then
+            Prelude_Debug.tprofile = Prelude_Debug.tprofile .. "{"
+            Prelude_Debug.seen[t] = true
+            for k in pairs(t) do table.insert(keys, k) end
+             table.sort(keys)
+             first = true
+             for _,k in ipairs(keys) do
+                 if first then first, Prelude_Debug.tprofile = false, Prelude_Debug.tprofile .. (k)
+                 else Prelude_Debug.tprofile = Prelude_Debug.tprofile .. (prefix..k)
+                 end
+                 value = t[k]
+                 if type(value)=="table" and not Prelude_Debug.seen[value] then
+                     Prelude_Debug.strINSPECTTable_ProfileREC(value, prefix)
+                 end
+             end
+             Prelude_Debug.tprofile = Prelude_Debug.tprofile .. "}"
+        else Prelude_Debug.tprofile = Prelude_Debug.tprofile .. "table_NIL"
+        end
+    end
+
+    function Prelude_Debug.error(msg)
+        print("-- ERROR -- \n", msg, "\n-- END ERROR -- \n")
+    end
+  end
+
+  Import_Prelude_Math()
+  Import_Prelude_String()
+  Import_Prelude_TTS()
+  Import_Prelude_List()
+  Import_Prelude_Debug()
+end

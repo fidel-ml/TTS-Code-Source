@@ -87,7 +87,7 @@ function Import_Game()
 
     function Game:initialize(state, debugLevel)
         local debugLevel = debugLevel or 0
-        Prelude_Debug.turnOnDebugAt_(debugLevel)
+        Prelude_Debug.setDebugLevelAt_(debugLevel)
         Prelude_Debug.DEBUG("Start initialization of "..self.gname.."...")
         Prelude_List.all_Do_(self.components, function(c) c:initialize() end)
         self.savedState = state
@@ -112,7 +112,7 @@ function onLoad(savedData)
     --     distance = 0,
     -- })
 
-    --Prelude_Debug.turnOnDebugAt_(1)
+    --Prelude_Debug.setDebugLevelAt_(1)
     GameBox:config()
     --Game:initialize(savedState, 1) -- 0 or nil for no Debug information
     -- Wait.condition(function() Game:spawn()        end,

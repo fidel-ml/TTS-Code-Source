@@ -10,5 +10,5 @@
   <Text   class="GameBox.RulesWindowTitle"  id="GameBox.Rules"            offsetXY="0 -5">
       Rules
   </Text>
-  <Button class="GameBox.RulesTopBarButton" id="GameBox.RulesCloseButton" onClick="gameBox_rulesCloseButtonBehaviour" text="X" offsetXY="-5 -5" color="#990000" textColor="#FFFFFF" />
+  <Button class="GameBox.RulesTopBarButton" id="GameBox.RulesCloseButton" onClick="buttonPressed(yo,tu,el)" text="X" offsetXY="-5 -5" color="#990000" textColor="#FFFFFF" />
 </Panel>

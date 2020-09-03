@@ -1,0 +1,3 @@
+function gameBox_rulesCloseButtonBehaviour()
+    UI.hide("GameBox.RulesWindow")
+end

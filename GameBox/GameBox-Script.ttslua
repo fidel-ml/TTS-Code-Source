@@ -1,0 +1,144 @@
+--[[ GameBox-Script
+    -- ----------------------
+    PURPOSE:
+    -- ----------------------
+    INTERFACE:
+    -- ----------------------
+    USAGE:
+    -- ----------------------
+<## REQUIRES:
+    ["/Utils/Prelude"]
+##>
+    -- ----------------------
+--]]
+function Import_GameBoxScript(context)
+    if GameBox~=nil then return 1 end
+    GameBox = {
+          gname     = "GameBox basic operations"
+        , gtype     = "GModule"
+    }
+
+    function GameBox:config()
+      -- Prepare buttons:
+      --    - setup game
+      --    - read manual
+      --    - ¿save and load on the web?
+      --    -
+      --self:createDoubleSidedButton(self:buttonParameters("underConstruction", "Iniciar", Vector(0.25,0,0.57)))
+      --self:createDoubleSidedButton(self:buttonParameters("underConstruction", "Reglas", Vector(-0.25,0,0.57)))
+      -- context.createButton(self:buttonParameters("test", "Reglas", Vector(-0.25,0,0.57)))
+    end
+
+    -- --------------------------------------------------------------
+    --  Buttons behaviour
+    -- --------------------------------------------------------------
+    function underConstruction()   -- Button behaviour must be globally defined!!
+        print("Buttons under construction...")
+    end
+
+    function rulesButtonBehaviour()  -- Toogle the rules window (on Global)
+        if UI.getAttribute("GameBox.RulesWindow", "active")=="true"
+          then UI.hide("GameBox.RulesWindow")
+          else UI.show("GameBox.RulesWindow")
+         end
+    end
+
+    -- function GameBox:createDoubleSidedButton(buttonParams)
+    --     context.createButton(buttonParams)
+    --     buttonParams.label = ""
+    --     buttonParams.rotation = buttonParams.rotation + Vector(180,180,0)
+    --     context.createButton(buttonParams)
+    -- end
+    --
+    -- function GameBox:buttonParameters(clickFun, label, pos, rot, w, h, color)
+    --     local rot = rot or Vector(0, 180, 0)
+    --     local w = w or 220
+    --     local h = h or 160
+    --     local color = color or  {r=1, g=1, b=1}
+    --     return { click_function = clickFun
+    --            , function_owner = context
+    --            , label     = label
+    --            , position  = pos
+    --            , rotation  = rot
+    --            , width     = w
+    --            , height    = h
+    --            , font_size = 60
+    --            , color     = color
+    --            }
+    -- end
+end
+
+function Import_Game()
+    if Game~=nil then return 1 end
+    Import_Prelude()
+
+    Game = {
+          gname     = "G-TTS_Game"
+        , gtype     = "GModule"
+
+        , interface = { "self:initalize([state [,debugLevel]])"
+                      , "self:saveState()"
+                      }
+
+        -- Instance variables
+        , components = { }
+        , savedState = { }
+    }
+
+    function Game:initialize(state, debugLevel)
+        local debugLevel = debugLevel or 0
+        Prelude_Debug.turnOnDebugAt_(debugLevel)
+        Prelude_Debug.DEBUG("Start initialization of "..self.gname.."...")
+        Prelude_List.all_Do_(self.components, function(c) c:initialize() end)
+        self.savedState = state
+        Prelude_Debug.DEBUG("--End initialization thread.")
+    end
+
+    function Game:saveState()
+        local states = {}
+        return states
+    end
+end
+
+function onLoad(savedData)
+    local savedState = JSON.decode(savedData or "")
+    Import_GameBoxScript(self)
+    Import_Game()
+
+    -- Player["White"].lookAt({
+    --     position = {x=-33,y=-2,z=0},
+    --     pitch    = 30,
+    --     yaw      = 280,
+    --     distance = 0,
+    -- })
+
+    --Prelude_Debug.turnOnDebugAt_(1)
+    GameBox:config()
+    --Game:initialize(savedState, 1) -- 0 or nil for no Debug information
+    -- Wait.condition(function() Game:spawn()        end,
+    --                function() return Game:ready() end)
+
+    print("Must be completed...")
+end
+
+-- function onSave()
+--     return (JSON.encode(Game:saveState()))
+-- end
+
+-- <Button tooltip="Iniciar"
+--         height="20" width="30" offsetXY="-25 58"
+--         alignment="UpperCenter"
+--         font_size="1"
+--         tooltipPosition="Above"
+--         onClick="underConstruction">
+-- I
+-- </Button>
+--
+-- <Button tooltip="Reglas"
+--         height="20" width="30" offsetXY="25 58"
+--         alignment="UpperCenter"
+--         font_size="1"
+--         tooltipPosition="Above"
+--         onClick="underConstruction">
+-- R
+-- </Button>

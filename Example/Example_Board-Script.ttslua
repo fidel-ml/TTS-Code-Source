@@ -6,3 +6,15 @@
 function onLoad(savedData)
   print("Example Board succesfully configured!")
 end
+
+function underConstruction()
+    print("Example used to test other things...")
+end
+
+function rulesButtonBehaviour()  -- Toogle the rules window (on Global)
+    print("At example: rules")
+    if UI.getAttribute("GameBox.RulesWindow", "active")=="true"
+      then UI.hide("GameBox.RulesWindow")
+      else UI.show("GameBox.RulesWindow")
+     end
+end

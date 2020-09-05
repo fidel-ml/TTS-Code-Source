@@ -24,8 +24,8 @@
             Prelude_Debug.error(msg)
             Prelude_Debug.setDebugLevelAt_([level=1])
             Prelude_Debug.DEBUG(msg[, level=1])
-            Prelude_Debug.INSPECTTable_(table)
-            Prelude_Debug.INSPECTTable_ProfileAs_(table [, tableName="Unnamed table"])
+            Prelude_Debug.INSPECTTable_AsJSON(table)
+            Prelude_Debug.INSPECTTableProfile(table [, tableName="Unnamed table"])
     -- ------------------------
     USAGE: simply include it and serve yourself
     -- ------------------------
@@ -188,8 +188,8 @@ function Import_Prelude()
         , interface = { "Prelude_Debug.error(msg)"
                       , "Prelude_Debug.setDebugLevelAt_([level=1])"
                       , "Prelude_Debug.DEBUG(msg[, level=1])"
-                      , "Prelude_Debug.INSPECTTable_(table)"
-                      , "Prelude_Debug.INSPECTTable_ProfileAs_(table[, tableName=\"Unnamed table\"])"
+                      , "Prelude_Debug.INSPECTTable_AsJSON(table)"
+                      , "Prelude_Debug.INSPECTTableProfile(table[, tableName=\"Unnamed table\"])"
                       }
 
         , debugLevel = 0
@@ -207,22 +207,22 @@ function Import_Prelude()
         end
     end
 
-    function Prelude_Debug.INSPECTTable_(t)
+    function Prelude_Debug.INSPECTTable_AsJSON(t)
         if t~=nil then Prelude_Debug.DEBUG(JSON.encode(t))
         else Prelude_Debug.DEBUG("Argument is not a table, but a nil.")
         end
     end
 
-    function Prelude_Debug.INSPECTTable_ProfileAs_(t, tName)
+    function Prelude_Debug.INSPECTTableProfile(t, tName)
         Prelude_Debug.seen     = {}
         Prelude_Debug.tprofile = ""
         Prelude_Debug.DEBUG("Table profile for "..(tName or "UnnamedTable"))
-        Prelude_Debug.strINSPECTTable_ProfileREC(t)
+        Prelude_Debug.strINSPECTTable_AsJSONProfileREC(t)
         Prelude_Debug.DEBUG(Prelude_Debug.tprofile)
         Prelude_Debug.DEBUG("END Table profile")
     end
 
-    function Prelude_Debug.strINSPECTTable_ProfileREC(t, prefix)
+    function Prelude_Debug.strINSPECTTable_AsJSONProfileREC(t, prefix)
         local prefix = prefix or ", "
         local keys = {}
         local value, first
@@ -238,7 +238,7 @@ function Import_Prelude()
                  end
                  value = t[k]
                  if type(value)=="table" and not Prelude_Debug.seen[value] then
-                     Prelude_Debug.strINSPECTTable_ProfileREC(value, prefix)
+                     Prelude_Debug.strINSPECTTable_AsJSONProfileREC(value, prefix)
                  end
              end
              Prelude_Debug.tprofile = Prelude_Debug.tprofile .. "}"

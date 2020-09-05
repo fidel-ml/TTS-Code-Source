@@ -13,8 +13,8 @@ end
 
 function rulesButtonBehaviour()  -- Toogle the rules window (on Global)
     print("At example: rules")
-    if UI.getAttribute("GameBox.RulesWindow", "active")=="true"
-      then UI.hide("GameBox.RulesWindow")
-      else UI.show("GameBox.RulesWindow")
+    if UI.getAttribute("Example.RulesWindow", "active")=="true"
+      then UI.hide("Example.RulesWindow")
+      else UI.show("Example.RulesWindow")
      end
 end

@@ -1,11 +1,25 @@
 <Defaults>
-    <Button class="$SELF.TopButton" height="20" width="30" alignment="MiddleCenter" font_size="0.5" tooltipPosition="Above" />
+    <Button class="$SELF.TopButton" height="20" width="30" alignment="MiddleCenter"
+            font_size="0.5" tooltipPosition="Above" colors="#00000000|#00000000|#00000000|#00000000"
+    />
 </Defaults>
 
-<Button class="$SELF.TopButton" id="$SELF.StartButton" tooltip = "Start" offsetXY="-25 58" onClick="underConstruction">
-Start
+<!-- Start Button -->
+<Button class="$SELF.TopButton" id="$SELF.StartButton"     rotation="0 0 0"
+        tooltip = "Start"        offsetXY="-25 56"           onClick="underConstruction">
+<Image image="Button" height="20" width="10"></Image>
+</Button>
+<Button class="$SELF.TopButton" id="$SELF.StartButtonBack" rotation="0 180 0"
+        tooltip = "Start"        offsetXY="-25 56"           onClick="underConstruction">
+<Image image="Button" height="20" width="10"></Image>
 </Button>
 
-<Button class="$SELF.TopButton" id="$SELF.RulesButton" tooltip = "Rules" offsetXY="25 58" onClick="rulesButtonBehaviour">
-Rules
+<!-- Rules Button -->
+<Button class="$SELF.TopButton" id="$SELF.RulesButton"     rotation="0 0 0"
+        tooltip = "Rules"        offsetXY="25 56"            onClick="rulesButtonBehaviour">
+<Image image="Button" height="20" width="10"></Image>
+</Button>
+<Button class="$SELF.TopButton" id="$SELF.RulesButtonBack" rotation="0 180 0"
+        tooltip = "Rules"        offsetXY="25 56"            onClick="rulesButtonBehaviour">
+<Image image="Button" height="20" width="10"></Image>
 </Button>

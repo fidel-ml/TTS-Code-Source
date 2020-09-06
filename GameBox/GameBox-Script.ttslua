@@ -23,11 +23,13 @@ function Import_GameBoxScript(context)
       --    - setup game
       --    - read manual
       --    - ¿save and load on the web?
-      --    -
-      --self:createDoubleSidedButton(self:buttonParameters("underConstruction", "Iniciar", Vector(0.25,0,0.57)))
-      --self:createDoubleSidedButton(self:buttonParameters("underConstruction", "Reglas", Vector(-0.25,0,0.57)))
-      -- context.createButton(self:buttonParameters("test", "Reglas", Vector(-0.25,0,0.57)))
-      Prelude_Debug.DEBUG("GameBox:config() successful")
+        local assets = {
+            { name = "Button"
+            , url  = "http://cloud-3.steamusercontent.com/ugc/1624066447698052130/666AAC01704B0F48292A5AFE2F4C9D46CFEFCFB3/"
+            }
+        }
+        context.UI.setCustomAssets(assets)
+        Prelude_Debug.DEBUG("GameBox:config() successful")
     end
 
     -- --------------------------------------------------------------

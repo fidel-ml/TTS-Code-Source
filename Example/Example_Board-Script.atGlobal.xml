@@ -5,7 +5,7 @@
     <Button class="GameBox.RulesTopBarButton" width="20" height="20"   rectAlignment="UpperRight"  color="#eeeeee"/>
 </Defaults>
 
-<Panel class="GameBox.RulesWindow" id="GameBox.RulesWindow" active="false">
+<Panel class="GameBox.RulesWindow" id="Example.RulesWindow" active="false">
   <Panel  class="GameBox.RulesTopBar"       id="GameBox.RulesTopBar"/>
   <Text   class="GameBox.RulesWindowTitle"  id="GameBox.Rules"            offsetXY="0 -5">
       Rules

@@ -3,9 +3,9 @@
 </Defaults>
 
 <Button class="ExampleTopButton" id="Example.StartButton" tooltip = "Ex-Start" offsetXY="-25 58" onClick="underConstruction">
-Start
+EStart
 </Button>
 
 <Button class="ExampleTopButton" id="Example.RulesButton" tooltip = "Ex-Rules" offsetXY="25 58" onClick="rulesButtonBehaviour">
-Rules
+ERules
 </Button>

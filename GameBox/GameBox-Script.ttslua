@@ -34,7 +34,7 @@ function Import_GameBoxScript(context)
     --  Buttons behaviour
     -- --------------------------------------------------------------
     function myRulesWindowID()
-        return Prelude_TTS.specialiseUI_ToObj_("$SELF.RulesWindow", self)
+        return Prelude_TTS.specialiseUI_To_("$SELF.RulesWindow", self)
     end
 
     function underConstruction()   -- Button behaviour must be globally defined!!

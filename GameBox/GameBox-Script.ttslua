@@ -42,14 +42,14 @@ function Import_GameBoxScript(context)
     end
 
     function rulesCloseButtonBehaviour()
-        UI.hide(self.myRulesWindowID())
+        UI.hide(myRulesWindowID())
     end
 
     function rulesButtonBehaviour()  -- Toogle the rules window (on Global)
         print("At GameBox: rules")
-        if UI.getAttribute(self.myRulesWindowID(), "active")=="true"
-          then UI.hide(self.myRulesWindowID())
-          else UI.show(self.myRulesWindowID())
+        if UI.getAttribute(myRulesWindowID(), "active")=="true"
+          then UI.hide(myRulesWindowID())
+          else UI.show(myRulesWindowID())
          end
     end
 

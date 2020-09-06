@@ -98,7 +98,7 @@ function Import_Prelude()
     function Prelude_TTS.specialiseUI_To_(xml, obj)
         local guid = obj.getGUID()
         local sUI = string.gsub(xml, "([^%%])%$SELF", "%1"..guid)
-        sUI = string.gsub(xnl, "%%%$SELF", "$SELF")
+        sUI = string.gsub(xml, "%%%$SELF", "$SELF")
         return sUI
     end
 

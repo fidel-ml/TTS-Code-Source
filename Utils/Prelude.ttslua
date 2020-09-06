@@ -6,9 +6,11 @@
         MATH: GModule
             Prelude_Math.sign(num)
             Prelude_Math.signedCeil(num)
+            Prelude_Math.pi
         STRINGS: GModule
             Prelude_String.trim(str)
         TTS: GModule
+            Prelude_TTS.specialiseUI_To_(xml, obj)
             Prelude_TTS.moveSmoothlyAlong(obj, points)
               -- points is a table of subtables
               --    { position, rotation }  or
@@ -20,7 +22,8 @@
             Prelude_List.all_Do_(xs, proc_[, reversed=false])
             Prelude_List.all_ReverseDo_(xs, proc)
             Prelude_List.elemIndex(x, xs)
-        GENERAL: GModule
+            Prelude_List.copy(xs)
+        DEBUG: GModule
             Prelude_Debug.error(msg)
             Prelude_Debug.setDebugLevelAt_([level=1])
             Prelude_Debug.DEBUG(msg[, level=1])
@@ -44,6 +47,8 @@ function Import_Prelude()
         , gtype = "GModule"
 
         , interface = { "Prelude_Math.sign(num)", "Prelude_Math.signedCeil(num)" }
+
+        , pi = 245850922/78256779  -- A reasonable approximation of pi
     }
 
     function Prelude_Math.sign(num)
@@ -89,6 +94,13 @@ function Import_Prelude()
 
         , interface = { "Prelude_TTS.moveSmoothlyAlong(obj, points)" }
     }
+
+    function Prelude_TTS.specialiseUI_To_(xml, obj)
+        local guid = obj.getGUID()
+        local sUI = string.gsub(xml, "([^%])%$SELF", "%1"..guid)
+        sUI = string.gsub(xnl, "%%%$SELF", "$SELF")
+        return sUI
+    end
 
     function Prelude_TTS.moveSmoothlyAlong(obj, points)
         if #points>0
@@ -174,6 +186,14 @@ function Import_Prelude()
         if i>#xs then i = nil end -- Not found!
         return i
     end
+
+    function Prelude_List.copy(xs)
+        local ys = {}
+        for i = 1,#xs do
+            ys[i] = xs[i]
+        end
+        return ys
+    end
   end
 
   function Import_Prelude_Debug()
@@ -217,12 +237,12 @@ function Import_Prelude()
         Prelude_Debug.seen     = {}
         Prelude_Debug.tprofile = ""
         Prelude_Debug.DEBUG("Table profile for "..(tName or "UnnamedTable"))
-        Prelude_Debug.strINSPECTTable_AsJSONProfileREC(t)
+        Prelude_Debug.strINSPECTTableProfileREC(t)
         Prelude_Debug.DEBUG(Prelude_Debug.tprofile)
-        Prelude_Debug.DEBUG("END Table profile")
+        Prelude_Debug.DEBUG("END Table profile ("..(tName or "UnnamedTable")..")\n")
     end
 
-    function Prelude_Debug.strINSPECTTable_AsJSONProfileREC(t, prefix)
+    function Prelude_Debug.strINSPECTTableProfileREC(t, prefix)
         local prefix = prefix or ", "
         local keys = {}
         local value, first
@@ -237,8 +257,17 @@ function Import_Prelude()
                  else Prelude_Debug.tprofile = Prelude_Debug.tprofile .. (prefix..k)
                  end
                  value = t[k]
-                 if type(value)=="table" and not Prelude_Debug.seen[value] then
-                     Prelude_Debug.strINSPECTTable_AsJSONProfileREC(value, prefix)
+                 if type(value)=="string" then
+                     Prelude_Debug.tprofile = Prelude_Debug.tprofile.."=\""..value.."\""
+                 elseif type(value)=="number" then
+                     Prelude_Debug.tprofile = Prelude_Debug.tprofile.."="..string.format("%d",value)
+                 elseif type(value)=="boolean" then
+                     if value
+                      then Prelude_Debug.tprofile = Prelude_Debug.tprofile.."=true"
+                      else Prelude_Debug.tprofile = Prelude_Debug.tprofile.."=false"
+                     end
+                 elseif type(value)=="table" and not Prelude_Debug.seen[value] then
+                     Prelude_Debug.strINSPECTTableProfileREC(value, prefix)
                  end
              end
              Prelude_Debug.tprofile = Prelude_Debug.tprofile .. "}"

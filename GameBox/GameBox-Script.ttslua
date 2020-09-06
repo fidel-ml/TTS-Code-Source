@@ -128,7 +128,7 @@ function onLoad(savedData)
     -- Wait.condition(function() Game:spawn()        end,
     --                function() return Game:ready() end)
 
-    print("Must be completed...")
+    print("Must be completed at "..myRulesWindowID().."...")
 end
 
 -- function onSave()

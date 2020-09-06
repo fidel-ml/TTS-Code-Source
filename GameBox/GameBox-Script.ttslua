@@ -33,15 +33,23 @@ function Import_GameBoxScript(context)
     -- --------------------------------------------------------------
     --  Buttons behaviour
     -- --------------------------------------------------------------
+    function myRulesWindowID()
+        return Prelude_TTS.specialiseUI_ToObj_("$SELF.RulesWindow", self)
+    end
+
     function underConstruction()   -- Button behaviour must be globally defined!!
         print("Buttons under construction...")
     end
 
+    function rulesCloseButtonBehaviour()
+        UI.hide(self.myRulesWindowID())
+    end
+
     function rulesButtonBehaviour()  -- Toogle the rules window (on Global)
         print("At GameBox: rules")
-        if UI.getAttribute("GameBox.RulesWindow", "active")=="true"
-          then UI.hide("GameBox.RulesWindow")
-          else UI.show("GameBox.RulesWindow")
+        if UI.getAttribute(self.myRulesWindowID(), "active")=="true"
+          then UI.hide(self.myRulesWindowID())
+          else UI.show(self.myRulesWindowID())
          end
     end
 

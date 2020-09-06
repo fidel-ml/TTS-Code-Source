@@ -1,14 +1,14 @@
 <Defaults>
-    <Panel  class="GameBox.RulesWindow"       width="385" height="300" rectAlignment="MiddleRight" returnToOriginalPositionWhenReleased="false" allowDragging="true" color="#69696940" outline="#404040"/>
-    <Panel  class="GameBox.RulesTopBar"       width="385" height="30"  rectAlignment="UpperCenter" color="#19197040" outline="#00008B"/>
-    <Text   class="GameBox.RulesWindowTitle"  text="Title for Rules"   fontSize="18" height="20" fontStyle="Bold" rectAlignment="UpperCenter" color="#FFFFFF" />
-    <Button class="GameBox.RulesTopBarButton" width="20" height="20"   rectAlignment="UpperRight"  color="#eeeeee"/>
+    <Panel  class="$SELF.RulesWindow"       width="385" height="300" rectAlignment="MiddleRight" returnToOriginalPositionWhenReleased="false" allowDragging="true" color="#69696940" outline="#404040"/>
+    <Panel  class="$SELF.RulesTopBar"       width="385" height="30"  rectAlignment="UpperCenter" color="#19197040" outline="#00008B"/>
+    <Text   class="$SELF.RulesWindowTitle"  text="Title for Rules"   fontSize="18" height="20" fontStyle="Bold" rectAlignment="UpperCenter" color="#FFFFFF" />
+    <Button class="$SELF.RulesTopBarButton" width="20" height="20"   rectAlignment="UpperRight"  color="#eeeeee"/>
 </Defaults>
 
-<Panel class="GameBox.RulesWindow" id="GameBox.RulesWindow" active="false">
-  <Panel  class="GameBox.RulesTopBar"       id="GameBox.RulesTopBar"/>
-  <Text   class="GameBox.RulesWindowTitle"  id="GameBox.Rules"            offsetXY="0 -5">
+<Panel class="$SELF.RulesWindow" id="$SELF.RulesWindow" active="false">
+  <Panel  class="$SELF.RulesTopBar"       id="$SELF.RulesTopBar"/>
+  <Text   class="$SELF.RulesWindowTitle"  id="$SELF.Rules"            offsetXY="0 -5">
       Rules
   </Text>
-  <Button class="GameBox.RulesTopBarButton" id="GameBox.RulesCloseButton" onClick="$SELF/rulesCloseButtonBehaviour" text="X" offsetXY="-5 -5" color="#990000" textColor="#FFFFFF" />
+  <Button class="$SELF.RulesTopBarButton" id="$SELF.RulesCloseButton" onClick="$SELF/rulesCloseButtonBehaviour" text="X" offsetXY="-5 -5" color="#990000" textColor="#FFFFFF" />
 </Panel>

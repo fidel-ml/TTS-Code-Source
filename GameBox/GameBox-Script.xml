@@ -7,19 +7,15 @@
 <!-- Start Button -->
 <Button class="$SELF.TopButton" id="$SELF.StartButton"     rotation="0 0 0"
         tooltip = "Start"        offsetXY="-25 56"           onClick="underConstruction">
-<Image image="Button" height="20" width="10"></Image>
 </Button>
 <Button class="$SELF.TopButton" id="$SELF.StartButtonBack" rotation="0 180 0"
         tooltip = "Start"        offsetXY="-25 56"           onClick="underConstruction">
-<Image image="Button" height="20" width="10"></Image>
 </Button>
 
 <!-- Rules Button -->
 <Button class="$SELF.TopButton" id="$SELF.RulesButton"     rotation="0 0 0"
         tooltip = "Rules"        offsetXY="25 56"            onClick="rulesButtonBehaviour">
-<Image image="Button" height="20" width="10"></Image>
 </Button>
 <Button class="$SELF.TopButton" id="$SELF.RulesButtonBack" rotation="0 180 0"
         tooltip = "Rules"        offsetXY="25 56"            onClick="rulesButtonBehaviour">
-<Image image="Button" height="20" width="10"></Image>
 </Button>

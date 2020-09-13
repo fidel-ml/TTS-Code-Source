@@ -1,85 +1,25 @@
 --[[ GameBox-Script
     -- ----------------------
-    PURPOSE:
+    PURPOSE: to provide the behaviour for the TTS GameBox object during TTS execution
     -- ----------------------
     INTERFACE:
+        * YourGameBox:config(), for additional configuration, if needed
+        * YourGameBox:startGame(), to start the game
     -- ----------------------
-    USAGE:
+    USAGE: (temporary)
+           this module is just a sample of how to arrange GameBox-Scripts for other
+           games. Copy it to your game, and provide YourGameBox:config() and YourGameBox:startGame().
+           It works together with the UIs specified by the GameBox-Script*.xml files.
+    -- ----------------------
+    TO DO LIST:
+       * provide an example Game
+       * to provide a better UI for RulesWindow
     -- ----------------------
 <## REQUIRES:
     ["/Utils/Prelude"]
 ##>
     -- ----------------------
 --]]
-function Import_GameBoxScript(context)
-    if GameBox~=nil then return 1 end
-    GameBox = {
-          gname     = "GameBox basic operations"
-        , gtype     = "GModule"
-    }
-
-    function GameBox:config()
-      -- Prepare buttons:
-      --    - setup game
-      --    - read manual
-      --    - ¿save and load on the web?
-        local assets = {
-            { name = "Button"
-            , url  = "http://cloud-3.steamusercontent.com/ugc/1624066447698052130/666AAC01704B0F48292A5AFE2F4C9D46CFEFCFB3/"
-            }
-        }
-        context.UI.setCustomAssets(assets)
-        Prelude_Debug.DEBUG("GameBox:config() successful")
-    end
-
-    -- --------------------------------------------------------------
-    --  Buttons behaviour
-    -- --------------------------------------------------------------
-    function myRulesWindowID()
-        return Prelude_TTS.specialiseUI_To_("$SELF.RulesWindow", self)
-    end
-
-    function underConstruction()   -- Button behaviour must be globally defined!!
-        print("Buttons under construction...")
-    end
-
-    function rulesCloseButtonBehaviour()
-        UI.hide(myRulesWindowID())
-    end
-
-    function rulesButtonBehaviour()  -- Toogle the rules window (on Global)
-        print("At "..myRulesWindowID()..": rules")
-        if UI.getAttribute(myRulesWindowID(), "active")=="true"
-          then UI.hide(myRulesWindowID())
-          else UI.show(myRulesWindowID())
-         end
-    end
-
-    -- function GameBox:createDoubleSidedButton(buttonParams)
-    --     context.createButton(buttonParams)
-    --     buttonParams.label = ""
-    --     buttonParams.rotation = buttonParams.rotation + Vector(180,180,0)
-    --     context.createButton(buttonParams)
-    -- end
-    --
-    -- function GameBox:buttonParameters(clickFun, label, pos, rot, w, h, color)
-    --     local rot = rot or Vector(0, 180, 0)
-    --     local w = w or 220
-    --     local h = h or 160
-    --     local color = color or  {r=1, g=1, b=1}
-    --     return { click_function = clickFun
-    --            , function_owner = context
-    --            , label     = label
-    --            , position  = pos
-    --            , rotation  = rot
-    --            , width     = w
-    --            , height    = h
-    --            , font_size = 60
-    --            , color     = color
-    --            }
-    -- end
-end
-
 function Import_Game()
     if Game~=nil then return 1 end
     Import_Prelude()
@@ -112,11 +52,58 @@ function Import_Game()
     end
 end
 
-function onLoad(savedData)
-    local savedState = JSON.decode(savedData or "")
-    Import_GameBoxScript(self)
+function Import_GameBoxScript(context)
     Import_Game()
 
+    if GameBox~=nil then return 1 end
+    GameBox = {
+          gname     = "GameBox basic operations"
+        , gtype     = "GModule"
+    }
+
+    function GameBox:config()
+      -- PURPOSE: to provide additional configuration for your GameBox
+      --         (For example, more buttons with additional behaviour)
+      -- TO DO LIST: Add buttons to save and load on the web
+      Prelude_Debug.DEBUG("GameBox:config() successful")
+    end
+
+    function GameBox:startGame()
+        Game:initializa()
+    end
+
+    -- --------------------------------------------------------------
+    --  Buttons behaviour
+    -- --------------------------------------------------------------
+    function startButtonBehaviour()   -- Button behaviours must be globally defined!!
+        GameBox:startGame()
+    end
+
+    function rulesButtonBehaviour()  -- Toogle the rules window (on Global)
+        if UI.getAttribute(myRulesWindowID(), "active")=="true"
+          then UI.hide(myRulesWindowID())
+          else UI.show(myRulesWindowID())
+         end
+    end
+
+    function rulesCloseButtonBehaviour()
+        UI.hide(myRulesWindowID())
+    end
+
+    -- --------------------------------------------------------------
+    --  Auxiliaries
+    -- --------------------------------------------------------------
+    function myRulesWindowID()
+        -- PURPOSE: returns a String with the corresponding ID
+        return Prelude_TTS.specialiseUI_To_("$SELF.RulesWindow", self)
+    end
+end
+
+function onLoad(savedData)
+    local savedState = JSON.decode(savedData or "")
+    Import_GameBoxScript(self)  -- Solves a conflict between self used by TTS for
+                                --  its script, and self used by LUA for its methods
+                                --  inside the GModule GameBoxScript
     -- Player["White"].lookAt({
     --     position = {x=-33,y=-2,z=0},
     --     pitch    = 30,
@@ -136,21 +123,3 @@ end
 -- function onSave()
 --     return (JSON.encode(Game:saveState()))
 -- end
-
--- <Button tooltip="Iniciar"
---         height="20" width="30" offsetXY="-25 58"
---         alignment="UpperCenter"
---         font_size="1"
---         tooltipPosition="Above"
---         onClick="underConstruction">
--- I
--- </Button>
---
--- <Button tooltip="Reglas"
---         height="20" width="30" offsetXY="25 58"
---         alignment="UpperCenter"
---         font_size="1"
---         tooltipPosition="Above"
---         onClick="underConstruction">
--- R
--- </Button>

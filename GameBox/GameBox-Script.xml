@@ -1,3 +1,8 @@
+<!--
+    This UI defines the behaviour of the two buttons in a GameBox
+    The buttons do not have image or text inside, because they are represented as an in-game TTS_Object.
+    For each button there are TWO buttons, in order for it to be accesible from the back as well.
+-->
 <Defaults>
     <Button class="$SELF.TopButton" height="15" width="20" alignment="MiddleCenter"
             font_size="0.5" tooltipPosition="Above" colors="#00000000|#00000000|#00000000|#00000000"
@@ -6,10 +11,10 @@
 
 <!-- Start Button -->
 <Button class="$SELF.TopButton" id="$SELF.StartButton"     rotation="0 0 0"
-        tooltip = "Start"        offsetXY="-25 56"           onClick="underConstruction">
+        tooltip = "Start"        offsetXY="-25 56"           onClick="startButtonBehaviour">
 </Button>
 <Button class="$SELF.TopButton" id="$SELF.StartButtonBack" rotation="0 180 0"
-        tooltip = "Start"        offsetXY="-25 56"           onClick="underConstruction">
+        tooltip = "Start"        offsetXY="-25 56"           onClick="startButtonBehaviour">
 </Button>
 
 <!-- Rules Button -->

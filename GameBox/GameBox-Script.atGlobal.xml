@@ -1,3 +1,7 @@
+<!--
+    This UI defines the appearance of the RulesWindow for a GameBox.
+    TO DO LIST: provide an actual window for rules (see /Other/UI-Examples/Rulebook)
+-->
 <Defaults>
     <Panel  class="$SELF.RulesWindow"       width="385" height="300" rectAlignment="MiddleRight" returnToOriginalPositionWhenReleased="false" allowDragging="true" color="#69696940" outline="#404040"/>
     <Panel  class="$SELF.RulesTopBar"       width="385" height="30"  rectAlignment="UpperCenter" color="#19197040" outline="#00008B"/>

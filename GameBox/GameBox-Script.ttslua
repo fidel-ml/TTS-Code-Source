@@ -111,7 +111,7 @@ function onLoad(savedData)
     --     distance = 0,
     -- })
 
-    --Prelude_Debug.setDebugLevelAt_(1)
+    Prelude_Debug.setDebugLevelAt_(1)
     GameBox:config()
     --Game:initialize(savedState, 1) -- 0 or nil for no Debug information
     -- Wait.condition(function() Game:spawn()        end,

@@ -41,6 +41,7 @@ function Import_Game()
         local debugLevel = debugLevel or 0
         Prelude_Debug.setDebugLevelAt_(debugLevel)
         Prelude_Debug.DEBUG("Start initialization of "..self.gname.."...")
+        print("At present, no components (to be completed by instances...)")
         Prelude_List.all_Do_(self.components, function(c) c:initialize() end)
         self.savedState = state
         Prelude_Debug.DEBUG("--End initialization thread.")
@@ -69,7 +70,7 @@ function Import_GameBoxScript(context)
     end
 
     function GameBox:startGame()
-        Game:initializa()
+        Game:initialize()
     end
 
     -- --------------------------------------------------------------
@@ -111,13 +112,13 @@ function onLoad(savedData)
     --     distance = 0,
     -- })
 
-    Prelude_Debug.setDebugLevelAt_(1)
+    -- Prelude_Debug.setDebugLevelAt_(1)
     GameBox:config()
     --Game:initialize(savedState, 1) -- 0 or nil for no Debug information
     -- Wait.condition(function() Game:spawn()        end,
     --                function() return Game:ready() end)
 
-    print("Must be completed at "..myRulesWindowID().."...")
+    -- print("Must be completed at "..myRulesWindowID().."...")
 end
 
 -- function onSave()

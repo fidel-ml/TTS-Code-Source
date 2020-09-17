@@ -53,7 +53,7 @@ function Import_CyB_Game()
 end
 
 function Import_GameBoxScript(context)
-    Import_Game()
+    Import_CyB_Game()
 
     if GameBox~=nil then return 1 end
     GameBox = {

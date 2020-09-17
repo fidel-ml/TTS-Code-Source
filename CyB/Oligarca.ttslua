@@ -1,0 +1,59 @@
+--[[ Oligarca
+    -- ----------------------
+    PURPOSE: specifies Oligarcas of Civilization&Barbarie for TTS
+    -- ----------------------
+    INTERFACE: G-TTS_Object-Factory
+        Oligarca:initialize()
+        Oligarca:ready()
+        Oligarca:spawn() -- Creates a new TTS object as specified
+    -- ----------------------
+    USAGE: Use as any G-TTS-Object-Factory on the game design
+    -- ----------------------
+<## REQUIRES:
+    []
+##>
+    -- ----------------------
+--]]
+function Import_Oligarca()
+    if Oligarca~=nil then return 1 end
+    -- Import_ScriptLoader()
+    -- Remember to add REQUIRES: ["/Base/ScriptLoader"]
+
+    Oligarca = {
+          gname = "Oligarca"
+        , gtype = "G-TTS_Object-Factory"
+
+        , TTS_ObjectType = "go_game_piece_white"
+        , scale          = 1.5
+        , spawnPos       = Vector(0,1,-13)
+        , properName     = "Oligarca"
+
+        , scriptLoader   = nil
+    --    , scriptLoader = ScriptLoader:new("Oligarca-Script", "Scripts/")
+    }
+
+    function Oligarca:initialize() end
+    function Oligarca:ready() return true end
+    -- function Oligarca:initialize() self.scriptLoader:load()              end
+    -- function Oligarca:ready() return self.scriptLoader:loadingFinished() end
+
+    function Oligarca:spawn(name, spawnPos)
+        -- local script   = self.scriptLoader:buildScript()
+        local oligarca = spawnObject(self:TTS_ObjectParams(name, spawnPos))
+        -- oligarca.setLuaScript(script)
+        return oligarca
+    end
+
+    function Oligarca:TTS_ObjectParams(name)
+        local name     = name or self.properName
+        local spawnPos = spawnPos or self.spawnPos
+        return { type              = self.TTS_ObjectType
+               , position          = spawnPos
+               , rotation          = Vector(0,0,0)
+               , scale             = self.scale * Vector(1,1,1)
+               , sound             = false
+               , snap_to_grid      = true
+               , callback_function = function(obj) obj.setName(name) end
+               }
+    end
+end

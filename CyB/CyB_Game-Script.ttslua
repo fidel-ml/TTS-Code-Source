@@ -1,0 +1,115 @@
+--[[ CyB_Game
+    -- ----------------------
+    PURPOSE: to capture the behaviour of a Game
+    -- ----------------------
+    INTERFACE: G-TTS-Game (implies interface G-TTS-*)
+        From G-TTS-*
+            self:initialize(data, debugLevel)
+            self:ready()
+            self:spawn() -- Creates new TTS objects as specified
+
+        self:addComponent(gttsComponent)
+        self.gameAuthor
+        self.components
+        self.elements
+    -- ----------------------
+    USAGE: Add this code at Global script, and do the following operations on function onLoad()
+        function onLoad(savedData)
+            Import_CyB_Game()
+            CyB_Game:initialize(savedData, 1) -- 0 or nil for no Debug information
+            Wait.condition(function() CyB_Game:spawn()        end,
+                           function() return CyB_Game:ready() end)
+        end
+    -- ----------------------
+<## REQUIRES:
+    ["/Utils/Prelude", "CyB_Board", "Trabajador", "Oligarca"]
+##>
+    -- ----------------------
+--]]
+function Import_CyB_Game()
+    if CyB_Game~=nil then return 1 end
+    Import_Prelude()
+    Import_CyB_Board()
+    Import_Trabajador()
+    Import_Oligarca()
+
+    CyB_Game = {
+          gname = "Civilización y Barbarie"
+        , gtype = "G-TTS-Game"
+
+        , gameAuthor = "Alejandro Donnantuoni"
+        , components = { CyB_Board, Trabajador, Oligarca}
+        , elements   = { board = nil }
+    }
+
+    function CyB_Game:initialize()
+        Prelude_Debug.DEBUG("Initializing game...")
+        self.elements.board = CyB_Board:spawn()
+        self.elements.testTrabajador = Trabajador:spawn()
+        self.elements.oligarca = {}
+        self.elements.oligarca[1] = Oligarca:spawn("Agro")
+        Prelude_Debug.DEBUG("Game initialization done.")
+    end
+end
+
+function Import_GameBoxScript(context)
+    Import_Game()
+
+    if GameBox~=nil then return 1 end
+    GameBox = {
+          gname     = "GameBox basic operations"
+        , gtype     = "GModule"
+    }
+
+    function GameBox:config()
+      -- PURPOSE: to provide additional configuration for your GameBox
+      --         (For example, more buttons with additional behaviour)
+      -- TO DO LIST: Add buttons to save and load on the web
+      Prelude_Debug.DEBUG("GameBox:config() successful")
+    end
+
+    function GameBox:startGame()
+        Game:initialize()
+    end
+
+    -- --------------------------------------------------------------
+    --  Buttons behaviour
+    -- --------------------------------------------------------------
+    function startButtonBehaviour()   -- Button behaviours must be globally defined!!
+        GameBox:startGame()
+    end
+
+    function rulesButtonBehaviour()  -- Toogle the rules window (on Global)
+        if UI.getAttribute(myRulesWindowID(), "active")=="true"
+          then UI.hide(myRulesWindowID())
+          else UI.show(myRulesWindowID())
+         end
+    end
+
+    function rulesCloseButtonBehaviour()
+        UI.hide(myRulesWindowID())
+    end
+
+    -- --------------------------------------------------------------
+    --  Auxiliaries
+    -- --------------------------------------------------------------
+    function myRulesWindowID()
+        -- PURPOSE: returns a String with the corresponding ID
+        return Prelude_TTS.specialiseUI_To_("$SELF.RulesWindow", self)
+    end
+end
+
+function onLoad(savedData)
+    local savedState = JSON.decode(savedData or "")
+    Import_GameBoxScript(self)  -- Solves a conflict between self used by TTS for
+                                --  its script, and self used by LUA for its methods
+                                --  inside the GModule GameBoxScript
+    -- Player["White"].lookAt({
+    --     position = {x=-33,y=-2,z=0},
+    --     pitch    = 30,
+    --     yaw      = 280,
+    --     distance = 0,
+    -- })
+
+    GameBox:config()
+end

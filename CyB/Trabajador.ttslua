@@ -1,0 +1,60 @@
+--[[ Trabajador
+    -- ----------------------
+    PURPOSE: specifies Trabajadores of Civilization&Barbarie for TTS
+    -- ----------------------
+    INTERFACE: G-TTS_Object-Factory
+        Trabajador:initialize()
+        Trabajador:ready()
+        Trabajador:spawn() -- Creates a new TTS object as specified
+    -- ----------------------
+    USAGE: Add to Game.components (see /Base/Game)
+        "Game:addComponents(Trabajador)"
+    -- ----------------------
+<## REQUIRES:
+    []
+##>
+    -- ----------------------
+--]]
+function Import_Trabajador()
+    if Trabajador~=nil then return 1 end
+    -- Import_ScriptLoader()
+    -- Remember to add REQUIRES: ["/Base/ScriptLoader"]
+
+    Trabajador = {
+          gname = "Trabajador"
+        , gtype = "G-TTS_Object-Factory"
+
+        , TTS_ObjectType = "go_game_piece_black"
+        , scale          = 1.5
+        , spawnPos       = Vector(0,1,13)
+        , properName     = "Militante"
+
+        , scriptLoader   = nil
+    --    , scriptLoader = ScriptLoader:new("Trabajador-Script", "Scripts/")
+    }
+
+    function Trabajador:initialize() end
+    function Trabajador:ready() return true end
+    -- function Trabajador:initialize() self.scriptLoader:load()              end
+    -- function Trabajador:ready() return self.scriptLoader:loadingFinished() end
+
+    function Trabajador:spawn(name, spawnPos)
+        -- local script     = self.scriptLoader:buildScript()
+        local trabajador = spawnObject(self:TTS_ObjectParams(name, spawnPos))
+        -- trabajador.setLuaScript(script)
+        return trabajador
+    end
+
+    function Trabajador:TTS_ObjectParams(name, spawnPos)
+        local name = name or self.properName
+        local spawnPos = spawnPos or self.spawnPos
+        return { type              = self.TTS_ObjectType
+               , position          = spawnPos
+               , rotation          = Vector(0,0,0)
+               , scale             = self.scale * Vector(1,1,1)
+               , sound             = false
+               , snap_to_grid      = true
+               , callback_function = function(obj) obj.setName(name) end
+               }
+    end
+end

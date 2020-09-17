@@ -1,0 +1,60 @@
+--[[ CyB-Board
+    -- ----------------------
+    PURPOSE: specifies a Board of Civilization&Barbarie for TTS
+    -- ----------------------
+    INTERFACE: G-TTS_Object-Factory
+        CyB_Board:initialize()
+        CyB_Board:ready()
+        CyB_Board:spawn() -- Creates a new TTS object as specified
+    -- ----------------------
+    USAGE:
+        Add to Game.components (see /Base/Game)
+            "Game:addComponents(CyB_Board)"
+    -- ----------------------
+<## REQUIRES:
+   []
+##>
+    -- ----------------------
+--]]
+function Import_CyB_Board()
+    if CyB_Board~=nil then return 1 end
+    --Import_ScriptLoader()
+    -- Remember to add REQUIRES: ["/Base/ScriptLoader"]
+
+    CyB_Board = {
+          gname = "CyB_Board"
+        , gtype = "G-TTS_Object-Factory"
+
+        , TTS_ObjectType = "Custom_Board"
+        , image          = "http://cloud-3.steamusercontent.com/ugc/1472067242098456020/CE7820775ECA0AD04D000F06EE0B35FDB1516D5D/"
+        , scale          = 1.2
+        , spawnPos       = Vector(0,1,0)
+
+        , scriptLoader = nil
+        -- , scriptLoader = ScriptLoader:new("CyB_Board-Script", "/Board/")
+    }
+
+    function CyB_Board:initialize() end
+    function CyB_Board:ready() return true end
+    -- function CyB_Board:initialize() self.scriptLoader:load()              end
+    -- function CyB_Board:ready() return self.scriptLoader:loadingFinished() end
+
+    function CyB_Board:spawn()
+        --local script = self.scriptLoader:buildScript()
+        local cybBoard = spawnObject(self:TTS_ObjectParams())
+        cybBoard.setCustomObject({image = self.image})
+        --cybBoard.setLuaScript(script)
+        return cybBoard
+    end
+
+    function CyB_Board:TTS_ObjectParams()
+        return { type              = self.TTS_ObjectType
+               , position          = self.spawnPos
+               , rotation          = Vector(0,0,0)
+               , scale             = self.scale * Vector(1,1,1)
+               , sound             = false
+               , snap_to_grid      = true
+               , callback_function = function(obj) obj.setName(self.gname) end
+               }
+    end
+end
